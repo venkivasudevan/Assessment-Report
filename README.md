@@ -17,6 +17,7 @@ This folder contains the image resources for the project.
 This folder contains the CSS styles for the project.
 
 - **style.css**: This file contains all the CSS codes for the project.
+- **main.py**: This file contains the code to save HTML to PDF.
 
 ### `/images`
 This subfolder inside `/assets` holds all the relevant images for the project. All images should be added here to maintain properly.
