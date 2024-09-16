@@ -4,7 +4,7 @@ path_to_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 
 config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
 
-# Path to your HTML file
+# Path of HTML file
 html_file = 'index.html'
 css_file = r'C:\Users\venki\Work\Compunet_Connections\Frontend\css\style.css'
 
