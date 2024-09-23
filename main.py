@@ -1,19 +1,18 @@
 import pdfkit
 
-# Absolute path to wkhtmltopdf binary
+# Absolute path to wkhtmltopdf
 path_to_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 
 # Configuring pdfkit with wkhtmltopdf
 config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
 
-# Path of HTML file and CSS (absolute paths)
+# Path of HTML file and CSS
 html_file = r'C:\Users\venki\Work\Compunet_Connections\Frontend\index.html'
 css_file = r'C:\Users\venki\Work\Compunet_Connections\Frontend\css\style.css'
 
-# Output PDF file name
+# Output file
 final_report = 'final_report.pdf'
 
-# PDF options (DPI, margins, etc.) including local file access
 options = {
     'page-size': 'A4',
     'dpi': 300,
