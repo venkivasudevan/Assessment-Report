@@ -176,13 +176,13 @@ td {
 }
 
 .pagination {
-    display: flex;
-    justify-content: center;
+    text-align: center;
     list-style-type: none;
     padding: 0;
 }
 
 .pagination li {
+    display: inline-block;
     margin: 0 5px;
 }
 

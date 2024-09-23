@@ -22,7 +22,8 @@ options = {
     'margin-bottom': '0.75in',
     'margin-left': '0.75in',
     'encoding': 'UTF-8',
-    'enable-local-file-access': '',  # This allows local file access
+    'enable-local-file-access': '',
+    'no-outline': None,
 }
 
 # Convert HTML to PDF
