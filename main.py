@@ -3,7 +3,7 @@ import pdfkit
 # Absolute path to wkhtmltopdf
 path_to_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 
-# Configuring pdfkit with wkhtmltopdf
+# Configuring pdfkit 
 config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
 
 # Path of HTML file and CSS
