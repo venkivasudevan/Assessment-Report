@@ -8,7 +8,7 @@ load_dotenv()
 # path
 path_to_wkhtmltopdf = os.getenv('WKHTMLTOPDF_PATH')
 
-# Configuring pdfkit with wkhtmltopdf
+# Configuring pdfkit 
 config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
 
 # Path of HTML file and CSS
