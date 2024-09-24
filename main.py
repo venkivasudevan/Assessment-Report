@@ -5,7 +5,7 @@ import pdfkit
 # Load environment variables 
 load_dotenv()
 
-# path
+# path 
 path_to_wkhtmltopdf = os.getenv('WKHTMLTOPDF_PATH')
 
 # Configuring pdfkit 
