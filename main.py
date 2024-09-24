@@ -1,14 +1,19 @@
+import os
+from dotenv import load_dotenv
 import pdfkit
 
-# Absolute path to wkhtmltopdf
-path_to_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+# Load environment variables 
+load_dotenv()
+
+# path
+path_to_wkhtmltopdf = os.getenv('WKHTMLTOPDF_PATH')
 
 # Configuring pdfkit with wkhtmltopdf
 config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
 
 # Path of HTML file and CSS
-html_file = r'C:\Users\venki\Work\Compunet_Connections\Frontend\index.html'
-css_file = r'C:\Users\venki\Work\Compunet_Connections\Frontend\css\style.css'
+html_file = os.getenv('HTML_FILE_PATH')
+css_file = os.getenv('CSS_FILE_PATH')
 
 # Output file
 final_report = 'final_report.pdf'
