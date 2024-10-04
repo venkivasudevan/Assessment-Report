@@ -1,0 +1,438 @@
+{
+    "info": {
+      "name": "Entrepreneur Name, Email and Scores Update API",
+      "description": "API for uploading and updating entrepreneur names, emails and scores in different sectors.",
+      "version": "1.0.0"
+    },
+    "item": [
+      {
+        "name": "Upload Entrepreneur Names (Sector 47)",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "multipart/form-data"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": [
+              {
+                "key": "file",
+                "type": "file",
+                "src": "NEST ASSESSMENT OVERALL SCORING DATA (7 DOMAINS) (1).xlsx"
+              }
+            ]
+          },
+          "url": {
+            "raw": "http://localhost:8000/insert_entrepreneur_names_2/",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "insert_entrepreneur_names_2"
+            ]
+          }
+        },
+        "response": [
+          {
+            "code": 200,
+            "body": "{\"message\": \"Names updated successfully for all 22 rows where ep_sector = 47.\"}"
+          },
+          {
+            "code": 500,
+            "body": "{\"error\": \"Not enough rows to update.\"}"
+          }
+        ]
+      },
+      {
+        "name": "Upload Entrepreneur Names (Sector 46)",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "multipart/form-data"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": [
+              {
+                "key": "file",
+                "type": "file",
+                "src": "NEST ASSESSMENT OVERALL SCORING DATA (7 DOMAINS) (1).xlsx"
+              }
+            ]
+          },
+          "url": {
+            "raw": "http://localhost:8000/insert_entrepreneur_names_1/",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "insert_entrepreneur_names_1"
+            ]
+          }
+        },
+        "response": [
+          {
+            "code": 200,
+            "body": "{\"message\": \"Names updated successfully for sector 46.\"}"
+          },
+          {
+            "code": 500,
+            "body": "{\"error\": \"Excel file does not contain 114 rows.\"}"
+          }
+        ]
+      },
+      {
+        "name": "Upload Assessment Score (ID 2)",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "multipart/form-data"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": [
+              {
+                "key": "file",
+                "type": "file",
+                "src": "NEST ASSESSMENT OVERALL SCORING DATA (7 DOMAINS) (1).xlsx"
+              }
+            ]
+          },
+          "url": {
+            "raw": "http://localhost:8000/insert_assessment_score_2/",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "insert_assessment_score_2"
+            ]
+          }
+        },
+        "response": [
+          {
+            "code": 200,
+            "body": "{\"message\": \"Scores updated successfully for all rows in Excel.\"}"
+          },
+          {
+            "code": 500,
+            "body": "{\"error\": \"Error during database operation: [error details]\"}"
+          }
+        ]
+      },
+      {
+        "name": "Upload Assessment Score (ID 1)",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "multipart/form-data"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": [
+              {
+                "key": "file",
+                "type": "file",
+                "src": "NEST ASSESSMENT OVERALL SCORING DATA (7 DOMAINS) (1).xlsx"
+              }
+            ]
+          },
+          "url": {
+            "raw": "http://localhost:8000/insert_assessment_score_1/",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "insert_assessment_score_1"
+            ]
+          }
+        },
+        "response": [
+          {
+            "code": 200,
+            "body": "{\"message\": \"Scores updated successfully for all rows in Excel for assessment ID 1.\"}"
+          },
+          {
+            "code": 500,
+            "body": "{\"error\": \"Error during database operation: [error details]\"}"
+          }
+        ]
+      },
+      {
+        "name": "Upload Entrepreneur Names (Sector 47 - Entrepreneur log Table)",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "multipart/form-data"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": [
+              {
+                "key": "file",
+                "type": "file",
+                "src": "NEST ASSESSMENT OVERALL SCORING DATA (7 DOMAINS) (1).xlsx"
+              }
+            ]
+          },
+          "url": {
+            "raw": "http://localhost:8000/insert_entrepreneurlog_names_2/",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "insert_entrepreneur_names_2"
+            ]
+          }
+        },
+        "response": [
+          {
+            "code": 200,
+            "body": "{\"message\": \"Names updated successfully for the entrepreneur log table sector 47.\"}"
+          },
+          {
+            "code": 500,
+            "body": "{\"error\": \"Mismatch between Excel rows and database rows for entrepreneur log table.\"}"
+          }
+        ]
+      },
+      {
+        "name": "Upload Entrepreneur Names (Sector 46 - Entrepreneur log Table)",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "multipart/form-data"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": [
+              {
+                "key": "file",
+                "type": "file",
+                "src": "NEST ASSESSMENT OVERALL SCORING DATA (7 DOMAINS) (1).xlsx"
+              }
+            ]
+          },
+          "url": {
+            "raw": "http://localhost:8000/insert_entrepreneurlog_names_1/",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "insert_entrepreneur_names_1"
+            ]
+          }
+        },
+        "response": [
+          {
+            "code": 200,
+            "body": "{\"message\": \"Names updated successfully for the entrepreneur log table sector 46.\"}"
+          },
+          {
+            "code": 500,
+            "body": "{\"error\": \"Mismatch between Excel rows and database rows for entrepreneur table.\"}"
+          }
+        ]
+      },
+      {
+        "name": "Upload Trait Scores (Manufacturing)",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "multipart/form-data"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": [
+              {
+                "key": "file",
+                "type": "file",
+                "src": "NEST ASSESSMENT OVERALL SCORING DATA (7 DOMAINS) (1).xlsx"
+              }
+            ]
+          },
+          "url": {
+            "raw": "http://localhost:8000/insert_trait_scores_1/",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "insert_trait_scores_1"
+            ]
+          }
+        },
+        "response": [
+          {
+            "code": 200,
+            "body": "{\"message\": \"Trait scores updated successfully for all records.\"}"
+          },
+          {
+            "code": 400,
+            "body": "{\"error\": \"Missing columns in Excel file: ['TRAIT_Extraversion']\"}"
+          }
+        ]
+      },
+      {
+        "name": "Upload Trait Scores (Agribusiness)",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "multipart/form-data"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": [
+              {
+                "key": "file",
+                "type": "file",
+                "src": "NEST ASSESSMENT OVERALL SCORING DATA (7 DOMAINS) (1).xlsx"
+              }
+            ]
+          },
+          "url": {
+            "raw": "http://localhost:8000/insert_trait_scores_2/",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "insert_trait_scores_2"
+            ]
+          }
+        },
+        "response": [
+          {
+            "code": 200,
+            "body": "{\"message\": \"Trait scores updated successfully for all records.\"}"
+          },
+          {
+            "code": 400,
+            "body": "{\"error\": \"Missing columns in Excel file: ['TRAIT_Extraversion']\"}"
+          }
+        ]
+      },
+      {
+        "name": "Get Updated Trait Scores",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:8000/get_trait_scores_2/",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "get_trait_scores_2"
+            ]
+          }
+        },
+        "response": [
+          {
+            "code": 200,
+            "body": "{\"message\": \"Updated trait scores retrieved successfully.\", \"data\": [...]} "
+          },
+          {
+            "code": 404,
+            "body": "{\"error\": \"No updated trait scores found.\"}"
+          }
+        ]
+      },
+      {
+        "name": "Get Updated Entrepreneur Emails",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:8000/get_entrepreneur_emails_2/",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "get_entrepreneur_emails_2"
+            ]
+          }
+        },
+        "response": [
+          {
+            "code": 200,
+            "body": "{\"message\": \"Updated entrepreneur emails retrieved successfully.\", \"data\": [...]} "
+          },
+          {
+            "code": 404,
+            "body": "{\"error\": \"No updated entrepreneur emails found.\"}"
+          }
+        ]
+      },
+      {
+        "name": "Get Updated Entrepreneur Names",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:8000/get_entrepreneur_names_2/",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "get_entrepreneur_names_2"
+            ]
+          }
+        },
+        "response": [
+          {
+            "code": 200,
+            "body": "{\"message\": \"Updated entrepreneur names retrieved successfully.\", \"data\": [...]} "
+          },
+          {
+            "code": 404,
+            "body": "{\"error\": \"No updated entrepreneur names found.\"}"
+          }
+        ]
+      }
+    ]
+  }
+  
