@@ -27,7 +27,7 @@ Before running the application, make sure you have the following installed:
 
 ## Clone the Repository
 
- - git clone https://github.com/your-username/your-repo.git
+ - git clone https://github.com/venkivasudevan/Assessment-Report.git
  - cd your-repo
 
 ## Create Virtual Environment
