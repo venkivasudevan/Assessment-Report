@@ -715,6 +715,268 @@ async def get_entrepreneur_names():
     finally:
         cursor.close()
         connection.close()
+        
+# Combined update for name, email, and trait assessmentscores for sector 47
+@app.post("/combined_update_name_email_trait_assessmentscores_2/")
+async def combined_update(file: UploadFile = File(...)):
+    logger.info("Received file upload for combined update...")
+
+    # Read the uploaded Excel file into pandas DataFrame
+    contents = await file.read()
+    excel_data = pd.read_excel(io.BytesIO(contents), sheet_name="Agribusiness")
+    
+    # Log the column names from the Excel file to help with debugging
+    logger.info(f"Excel columns: {list(excel_data.columns)}")
+
+    # Establish MySQL connection
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        # Part 1: Update entrepreneur names where ep_sector = 47
+        logger.info("Starting entrepreneur names update...")
+
+        # Fetch the rows where ep_sector = 47
+        fetch_query = "SELECT ep_id FROM tbl_entrepreneur WHERE ep_sector = 47"
+        cursor.execute(fetch_query)
+        rows = cursor.fetchall()
+
+        if len(rows) < 22:
+            logger.error("Not enough rows with ep_sector = 47 to update.")
+            return {"error": "Not enough rows to update."}
+
+        for index, row in excel_data.iterrows():
+            if index >= 22:
+                break  # Only take the first 22 names from the Excel file
+
+            ep_name = row['Name']  # Column in Excel with names
+            ep_id = rows[index][0]  # Get the ep_id of the corresponding row in the database
+            logger.info(f"Updating ep_name '{ep_name}' for ep_id = {ep_id}")
+
+            # Update query for the name
+            update_query_name = """
+                UPDATE tbl_entrepreneur 
+                SET ep_name = %s 
+                WHERE ep_id = %s AND ep_sector = 47
+            """
+            cursor.execute(update_query_name, (ep_name, ep_id))
+
+        logger.info("Entrepreneur names updated successfully.")
+
+        # Part 2: Update entrepreneur emails where ep_sector = 47
+        logger.info("Starting entrepreneur emails update...")
+
+        # Iterate through the first 22 records in the Excel sheet and update emails
+        for index, row in excel_data.iterrows():
+            if index >= 22:
+                break  # Only take the first 22 emails from the Excel file
+
+            ep_email = row['Email']  # Assuming the email column is named 'Email'
+            ep_id = rows[index][0]  # Get the ep_id of the corresponding row in the database
+
+            logger.info(f"Updating ep_email '{ep_email}' for ep_id = {ep_id}")
+
+            # Update query for the email
+            update_query_email = """
+                UPDATE tbl_entrepreneur 
+                SET ep_email = %s 
+                WHERE ep_id = %s AND ep_sector = 47
+            """
+            cursor.execute(update_query_email, (ep_email, ep_id))
+
+        logger.info("Entrepreneur emails updated successfully.")
+
+        # Part 3: Update trait scores
+        logger.info("Starting trait scores update...")
+
+        trait_name_mapping = {
+            "TRAIT_Revenue & Profit Calculation" : 1,
+            "TRAIT_Financial Management " : 2,
+            "TRAIT_Capital & Expenses Assessment ": 3,
+            "TRAIT_People Development" : 4,
+            "TRAIT_Sales & Marketing" : 5,
+            "TRAIT_ Business Operation Management " : 6,
+            "TRAIT_Business Strategic Management " : 7,
+            "TRAIT_Vision" : 8,
+            "TRAIT_Decisiveness" : 9,
+            "TRAIT_Strategic Thinking" : 10,
+            "TRAIT_Collaboration": 11,
+            "TRAIT_Team Management " : 12,
+            "TRAIT_Conscientiousness" : 13,
+            "TRAIT_Agreeableness" : 14,
+            "TRAIT_Extraversion" : 15,
+            "TRAIT_Emotional Stability" : 16,
+            "TRAIT_Humility" : 17,
+            "TRAIT_Change Readiness" : 18,
+            "TRAIT_Technology & Innovation" : 33,
+            "TRAIT_Quality" : 34,
+            "TRAIT_Research & Development " : 35,
+            "TRAIT_Planning & Execution" : 36
+        }
+
+        update_query_score = """
+            UPDATE tbl_scoredetails 
+            SET scrd_score = %s 
+            WHERE scrd_msubid = %s AND scrd_secId = 2
+        """
+
+        # Ensure that the Excel has the correct trait columns
+        missing_cols = [col for col in trait_name_mapping.keys() if col not in excel_data.columns]
+        if missing_cols:
+            logger.error(f"Missing columns in Excel file: {missing_cols}")
+            return {"error": f"Missing columns in Excel file: {missing_cols}"}
+
+        # Iterate through each row in the Excel DataFrame
+        for index, row in excel_data.iterrows():
+            logger.info(f"Updating trait scores for record {index + 1}...")
+
+            # Iterate through each trait name and update the corresponding score
+            for excel_trait, scrd_msubid in trait_name_mapping.items():
+                if excel_trait in row:
+                    score = row[excel_trait]
+                    logger.info(f"Updating score for {excel_trait} (scrd_msubid = {scrd_msubid}) with score {score}")
+                    cursor.execute(update_query_score, (float(score), scrd_msubid))
+                else:
+                    logger.warning(f"{excel_trait} not found in Excel row {index + 1}.")
+
+        logger.info("Trait scores updated successfully.")
+
+        # Commit the updates for both operations
+        connection.commit()
+
+    except Exception as e:
+        connection.rollback()
+        logger.error(f"Error during database operation: {e}")
+        return {"error": str(e)}
+    finally:
+        cursor.close()
+        connection.close()
+
+    return {"message": "Entrepreneur names, emails, assessment and trait scores updated successfully."}
+
+# Combined update for name, email, and trait assessmentscores for sector 46
+@app.post("/combined_update_name_email_trait_assessmentscores_1/")
+async def update_entrepreneur_and_trait_data(file: UploadFile = File(...)):
+    logger.info("Received file upload for sector 46 (names, emails, and trait scores)...")
+
+    # Read the uploaded Excel file into pandas DataFrame, using "Manufacturing" sheet
+    contents = await file.read()
+    excel_data = pd.read_excel(io.BytesIO(contents), sheet_name="Manufacturing")
+
+    # Log the shape and column names from the Excel file to help with debugging
+    logger.info(f"Excel data shape: {excel_data.shape}")
+    logger.info(f"Excel columns: {list(excel_data.columns)}")
+
+    # Check that the number of rows in the Excel file is correct
+    if len(excel_data) != 114:
+        logger.error(f"Expected 114 rows in the Excel file, but found {len(excel_data)}.")
+        return {"error": "Excel file does not contain 114 rows."}
+
+    # Establish MySQL connection
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    # Fetch the IDs of the existing rows where ep_sector = 46
+    cursor.execute("SELECT ep_id FROM tbl_entrepreneur WHERE ep_sector = 46")
+    existing_ids = cursor.fetchall()  # Fetch all IDs for sector 46
+
+    # Check if we fetched the expected number of IDs
+    if len(existing_ids) != 114:
+        logger.error(f"Expected 114 IDs for sector 46, but got {len(existing_ids)}. Existing IDs: {existing_ids}")
+        return {"error": "Mismatch between Excel rows and database rows."}
+
+    # SQL queries for updating names and emails
+    update_name_query = "UPDATE tbl_entrepreneur SET ep_name = %s WHERE ep_id = %s"
+    update_email_query = "UPDATE tbl_entrepreneur SET ep_email = %s WHERE ep_id = %s"
+
+    # SQL query for updating scores in the scoredetails table
+    update_score_query = """
+        UPDATE tbl_scoredetails 
+        SET scrd_score = %s 
+        WHERE scrd_msubid = %s AND scrd_secId = 1
+    """
+
+    # Define a mapping between Excel trait names and scrd_msubid
+    trait_name_mapping = {
+        "TRAIT_Revenue & Profit Calculation" : 1,
+        "TRAIT_Financial Management " : 2,
+        "TRAIT_Capital & Expenses Assessment ": 3,
+        "TRAIT_People Development" : 4,
+        "TRAIT_Sales & Marketing" : 5,
+        "TRAIT_ Business Operation Management " : 6,
+        "TRAIT_Business Strategic Management " : 7,
+        "TRAIT_Vision" : 8,
+        "TRAIT_Decisiveness" : 9,
+        "TRAIT_Strategic Thinking" : 10,
+        "TRAIT_Collaboration": 11,
+        "TRAIT_Team Management " : 12,
+        "TRAIT_Conscientiousness" : 13,
+        "TRAIT_Agreeableness" : 14,
+        "TRAIT_Extraversion" : 15,
+        "TRAIT_Emotional Stability" : 16,
+        "TRAIT_Humility" : 17,
+        "TRAIT_Change Readiness" : 18,
+        "TRAIT_Safety & Health" : 25,
+        "TRAIT_Human Resources ": 26,
+        "TRAIT_Research & Development " : 27,
+        "TRAIT_Planning & Execution" : 28
+    }
+
+    try:
+        logger.info("Updating names, emails, and trait scores for sector 46...")
+
+        # Iterate through each row in the Excel DataFrame to update names and emails
+        for index, row in excel_data.iterrows():
+            ep_id = existing_ids[index][0]  # Get the corresponding ep_id
+
+            # Update name
+            ep_name = row['Name']  # Get the name from the DataFrame
+            logger.info(f"Updating name '{ep_name}' for ep_id {ep_id}...")
+            cursor.execute(update_name_query, (ep_name, ep_id))  # Update the database for names
+
+            # Update email
+            ep_email = row['Email']  # Get the email from the DataFrame
+            logger.info(f"Updating email '{ep_email}' for ep_id {ep_id}...")
+            cursor.execute(update_email_query, (ep_email, ep_id))  # Update the database for emails
+
+        # Ensure that the Excel has the correct trait columns
+        missing_cols = [col for col in trait_name_mapping.keys() if col not in excel_data.columns]
+        if missing_cols:
+            logger.error(f"Missing columns in Excel file: {missing_cols}")
+            return {"error": f"Missing columns in Excel file: {missing_cols}"}
+
+        # Iterate through each row in the Excel DataFrame to update trait scores
+        for index, row in excel_data.iterrows():
+            logger.info(f"Updating trait scores for record {index + 1}...")
+
+            # Iterate through each trait name and update the corresponding score
+            for excel_trait, scrd_msubid in trait_name_mapping.items():
+                if excel_trait in row:
+                    score = row[excel_trait]
+
+                    # Check if the score is NaN and handle it
+                    if pd.isna(score):
+                        logger.warning(f"Skipping NaN score for {excel_trait} (scrd_msubid = {scrd_msubid}) in row {index + 1}")
+                        continue  # Skip this trait if the score is NaN
+
+                    logger.info(f"Updating score for {excel_trait} (scrd_msubid = {scrd_msubid}) with score {score}")
+                    
+                    # Execute the SQL query to update the score for the current trait
+                    cursor.execute(update_score_query, (float(score), scrd_msubid))
+
+        # Commit the updates after processing all rows
+        connection.commit()
+        logger.info("All names, emails, and trait scores updated successfully.")
+
+    except Exception as e:
+        logger.error(f"Error during database operation: {e}")
+        return {"error": str(e)}
+    finally:
+        cursor.close()
+        connection.close()
+
+    return {"message": "Names, emails, and trait scores updated successfully for all records."}
+
 
 
 if __name__ == "__main__":
